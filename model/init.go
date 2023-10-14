@@ -1,4 +1,4 @@
-package config
+package model
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-func MysqlInit() {
+func InitDB() *gorm.DB {
 	// 日志打印
 	newLogger := logger.New(
 		log.New(gin.DefaultWriter, "\r\n", log.LstdFlags), // io writer
@@ -37,7 +37,7 @@ func MysqlInit() {
 
 	source = fmt.Sprintf(source, user, pwd, addr, dataBase)
 	common.SysLog("start init mysql")
-	v, err := gorm.Open(mysql.Open(source), &gorm.Config{
+	db, err := gorm.Open(mysql.Open(source), &gorm.Config{
 		Logger: newLogger,
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix:   "t_", // 定义表前缀
@@ -50,8 +50,24 @@ func MysqlInit() {
 			common.FatalLog("DB Open error,err=", err.Error())
 		}
 	}
-	common.DB = v
-
 	common.SysLog("database connected")
 
+	defer func() {
+		sqlDB, err := db.DB()
+		if err != nil {
+			common.FatalLog("failed to get orm db: " + err.Error())
+		}
+		err = sqlDB.Close()
+		if err != nil {
+			common.FatalLog("failed to close database: " + err.Error())
+		}
+	}()
+
+	err = db.AutoMigrate(&User{})
+	if err != nil {
+		common.FatalLog("failed to migrate table: " + err.Error())
+	}
+
+	common.SysLog("database migrated")
+	return db
 }

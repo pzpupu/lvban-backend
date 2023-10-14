@@ -2,16 +2,12 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
+	"lvban/model"
+	"lvban/service"
 	"net/http"
 )
 
-func init() {
-	c := &UserApi{}
-	c.init(app.R) //这里需要引入你的gin框架的实例
-}
-
-func (t UserApi) init(g *gin.Engine) {
+func (t UserApi) init(g *gin.RouterGroup) {
 	// 依次: 分页列表，单条，插入，修改，删除
 	group := g.Group("/user")
 	group.GET("/list", t.list) //不设置限制条件的画默认查询所有

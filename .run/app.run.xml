@@ -1,0 +1,21 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="app" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="lvban-backend" />
+    <working_directory value="$PROJECT_DIR$" />
+    <envs>
+      <env name="MYSQL_ADDRESS" value="sh-cynosdbmysql-grp-4ux2mrm8.sql.tencentcdb.com:23159" />
+      <env name="MYSQL_PASSWORD" value="e8FrRFXG" />
+      <env name="MYSQL_USERNAME" value="root" />
+    </envs>
+    <EXTENSION ID="software.aws.toolkits.jetbrains.core.execution.GoAwsConnectionRunConfigurationExtension">
+      <option name="credential" />
+      <option name="region" />
+      <option name="useCurrentConnection" value="false" />
+    </EXTENSION>
+    <kind value="PACKAGE" />
+    <package value="lvban" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/main.go" />
+    <method v="2" />
+  </configuration>
+</component>

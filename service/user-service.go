@@ -41,3 +41,9 @@ func (t userService) Insert(v model.User) {
 func (t userService) Delete(ids []int) {
 	t.db.Delete(model.User{}, ids)
 }
+
+func (t userService) FindByOpenID(id string) (model.User, error) {
+	user := &model.User{}
+	err := t.db.First(user, "open_id = ?", id).Error
+	return *user, err
+}

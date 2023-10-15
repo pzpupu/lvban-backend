@@ -3,13 +3,17 @@ package middleware
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"lvban/common"
 )
 
-func PrintHeader() gin.HandlerFunc {
+func WxCloud() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		fmt.Println(c.Request.Header)
-
 		// 请求前
+		OpenId := c.GetHeader("X-WX-OPENID")
+		UnionId := c.GetHeader("X-WX-UNIONID")
+		fmt.Printf("OpenID: %s, UnionID: %s\n", OpenId, UnionId)
+
+		c.Set(common.OPEN_ID, OpenId)
 
 		c.Next()
 

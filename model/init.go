@@ -45,11 +45,6 @@ func InitDB() *gorm.DB {
 		},
 	})
 
-	if err != nil {
-		if err != nil {
-			common.FatalLog("DB Open error,err=", err.Error())
-		}
-	}
 	common.SysLog("database connected")
 
 	defer func() {
@@ -63,37 +58,19 @@ func InitDB() *gorm.DB {
 		}
 	}()
 
-	err = db.AutoMigrate(&User{}, &PlayCompanion{}, &PlayMedia{}, &PlayProject{}, &PlayTag{}, &PlayDuration{})
-	if err != nil {
-		common.FatalLog("failed to migrate table: " + err.Error())
+	if err == nil {
+		err = db.AutoMigrate(&User{}, &PlayCompanion{}, &PlayMedia{}, &PlayProject{}, &PlayTag{}, &PlayDuration{})
+		if err != nil {
+			common.FatalLog("failed to migrate table: " + err.Error())
+		}
+
+		common.SysLog("database migrated")
+		if err != nil {
+			common.FatalLog("DB Open error,err=", err.Error())
+		}
+	} else {
+		common.FatalLog(err)
 	}
 
-	common.SysLog("database migrated")
 	return db
 }
-
-// -----------
-
-type R struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
-}
-
-// OkData 成功的数据返回
-func OkData(data interface{}) R {
-	return R{Code: 0, Data: data}
-}
-
-// OkMsg 成功的消息返回
-func OkMsg(msg string) R {
-	return R{Code: 0, Msg: msg}
-}
-
-// Fail 失败的消息返回
-// Fail 失败的消息返回
-func Fail(msg string) R {
-	return R{Code: -1, Msg: msg}
-}
-
-//-----------

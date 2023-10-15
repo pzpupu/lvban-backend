@@ -1,0 +1,38 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Dockerfile" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
+    <deployment type="dockerfile">
+      <settings>
+        <option name="imageTag" value="wxcloud_lvban-backend:latest" />
+        <option name="containerName" value="wxcloud_lvban-backend" />
+        <option name="envVars">
+          <list>
+            <DockerEnvVarImpl>
+              <option name="name" value="MYSQL_ADDRESS" />
+              <option name="value" value="sh-cynosdbmysql-grp-4ux2mrm8.sql.tencentcdb.com:23159" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="MYSQL_PASSWORD" />
+              <option name="value" value="e8FrRFXG" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="MYSQL_USERNAME" />
+              <option name="value" value="root" />
+            </DockerEnvVarImpl>
+          </list>
+        </option>
+        <option name="commandLineOptions" value="--rm -t --network wxcb0  -l role=container -l wxcloud=lvban-backend -l hostPort=27081 -l wxPort=27082 -p 127.0.0.1:27081:80/tcp" />
+        <option name="sourceFilePath" value="Dockerfile" />
+        <option name="volumeBindings">
+          <list>
+            <DockerVolumeBindingImpl>
+              <option name="containerPath" value="/.tencentcloudbase" />
+              <option name="hostPath" value="$USER_HOME$/.wxcloudbase/.tencentcloudbase" />
+              <option name="readOnly" value="true" />
+            </DockerVolumeBindingImpl>
+          </list>
+        </option>
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>

@@ -2,7 +2,7 @@ package model
 
 import (
 	"database/sql/driver"
-	"time"
+	"gorm.io/gorm"
 )
 
 // GenderType 定义一个类型表示性别。
@@ -38,10 +38,12 @@ func (g GenderType) Value() (driver.Value, error) {
 }
 
 type User struct {
+	// 基础字段
+	gorm.Model
 	// 主键
-	Id int64 `json:"id" form:"id" gorm:"primaryKey" `
+	//Id uint64 `json:"id" form:"id" gorm:"primaryKey;autoIncrement" `
 	// 微信id
-	WechatId string `json:"wechat_id" form:"wechat_id" `
+	WechatId string `json:"wechat_id" form:"wechat_id" gorm:"uniqueIndex;size:64"`
 	// 昵称
 	Nickname string `json:"nickname" form:"nickname" `
 	// 性别
@@ -49,7 +51,7 @@ type User struct {
 	// 手机
 	Mobile string `json:"mobile" form:"mobile" `
 	// 创建时间
-	CreatedAt time.Time `json:"created_at" form:"created_at" gorm:"autoCreateTime" `
+	//CreatedAt time.Time `json:"created_at" form:"created_at" gorm:"autoCreateTime" `
 	// 更新时间
-	UpdatedAt time.Time `json:"updated_at" form:"updated_at" gorm:"autoUpdateTime" `
+	//UpdatedAt time.Time `json:"updated_at" form:"updated_at" gorm:"autoUpdateTime" `
 }

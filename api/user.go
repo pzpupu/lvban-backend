@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"lvban/middleware"
 	"lvban/model"
 	"lvban/service"
 	"net/http"
@@ -9,7 +10,7 @@ import (
 
 func (t UserApi) init(g *gin.RouterGroup) {
 	// 依次: 分页列表，单条，插入，修改，删除
-	group := g.Group("/user")
+	group := g.Group("/user").Use(middleware.PrintHeader())
 	group.GET("/list", t.list) //不设置限制条件的画默认查询所有
 	group.GET("/one", t.one)
 	group.POST("/insert", t.insert)
@@ -36,7 +37,7 @@ func (t UserApi) list(c *gin.Context) {
 func (t UserApi) one(c *gin.Context) {
 	var v model.User
 	_ = c.Bind(&v)
-	c.JSON(http.StatusOK, model.OkData(service.UserService.One(v.Id)))
+	c.JSON(http.StatusOK, model.OkData(service.UserService.One(v.ID)))
 }
 
 // 修改记录

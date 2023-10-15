@@ -10,6 +10,8 @@ type PlayCompanion struct {
 	//Id uint64 `json:"id" form:"id" gorm:"primaryKey;autoIncrement" `
 	// 陪玩媒体
 	Medias []PlayMedia
+	// 是否有语音介绍
+	HasVoice bool `json:"has_voice" form:"has_voice" gorm:"default:false" `
 	// 陪玩项目
 	Projects []PlayProject `gorm:"many2many:play_companion_projects;"`
 	// 陪玩标签

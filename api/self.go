@@ -15,10 +15,9 @@ type SelfApi struct {
 }
 
 func (t SelfApi) init(g *gin.RouterGroup) {
-	path := "/self"
-	//group := g.Group(path)
-	g.GET(path, t.get)
-	g.POST(path, t.post)
+	group := g.Group("/self")
+	group.GET("", t.get)
+	group.POST("/register", t.post)
 }
 
 // get 获取当前用户信息

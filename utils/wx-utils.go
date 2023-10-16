@@ -8,12 +8,10 @@ import (
 )
 
 // GetOpenData 根据CloudID开放数据获取服务
-func GetOpenData(appid, accessToken, openid, cloudid string) (string, error) {
-	url := fmt.Sprintf("https://api.weixin.qq.com/wxa/getopendata?from_appid=%s&openid=%s&cloudbase_access_token=%s", appid, openid, accessToken)
-	println("Request -> URL: " + url)
+func GetOpenData(cloudid string) (string, error) {
 	reqBody := fmt.Sprintf("{\"cloudid_list\": [\"%s\"]}", cloudid)
 	println("Request -> Body: " + reqBody)
-	resp, err := http.Post(url, "application/json", bytes.NewBufferString(reqBody))
+	resp, err := http.Post("http://api.weixin.qq.com/wxa/getopendata", "application/json", bytes.NewBufferString(reqBody))
 	if err != nil {
 		return "", err
 	}

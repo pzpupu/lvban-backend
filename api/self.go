@@ -34,9 +34,9 @@ func (t SelfApi) get(c *gin.Context) {
 
 // post 为当前用户注册
 func (t SelfApi) post(c *gin.Context) {
-	appid := c.GetString(common.AppId)
-	openId := c.GetString(common.OpenId)
-	accessToken := c.GetString(common.AccessToken)
+	//appid := c.GetString(common.AppId)
+	//openId := c.GetString(common.OpenId)
+	//accessToken := c.GetString(common.AccessToken)
 	json := &vo.CloudId{}
 	if err := c.ShouldBindJSON(json); err != nil {
 		// 请求的 JSON 格式错误，返回一个错误响应
@@ -44,7 +44,7 @@ func (t SelfApi) post(c *gin.Context) {
 		return
 	}
 
-	data, err := utils.GetOpenData(appid, accessToken, openId, json.CloudId)
+	data, err := utils.GetOpenData(json.CloudId)
 	if err != nil {
 		c.JSON(http.StatusOK, common.FailMsg(common.OpenDataFail, err.Error()))
 		return

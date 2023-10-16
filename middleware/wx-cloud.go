@@ -10,10 +10,15 @@ func WxCloud() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 请求前
 		OpenId := c.GetHeader("X-WX-OPENID")
-		UnionId := c.GetHeader("X-WX-UNIONID")
-		fmt.Printf("OpenID: %s, UnionID: %s\n", OpenId, UnionId)
+		//UnionId := c.GetHeader("X-WX-UNIONID")
+		AppId := c.GetHeader("X-WX-APPID")
+		AccessToken := c.GetHeader("X-WX-CLOUDBASE-ACCESS-TOKEN")
 
-		c.Set(common.OPEN_ID, OpenId)
+		fmt.Printf("WxCloud -> Header: %s\n", c.Request.Header)
+
+		c.Set(common.OpenId, OpenId)
+		c.Set(common.AppId, AppId)
+		c.Set(common.AccessToken, AccessToken)
 
 		c.Next()
 

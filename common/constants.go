@@ -1,3 +1,5 @@
 package common
 
-const OPEN_ID = "OpenId"
+const OpenId = "OpenId"
+const AppId = "AppId"
+const AccessToken = "AccessToken"

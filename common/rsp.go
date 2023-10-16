@@ -12,17 +12,41 @@ const (
 )
 
 const (
-	// CLIENT 一级宏观错误码
-	CLIENT Code = iota + 10001
+	// CLIENT 客户端错误一级宏观错误码
+	CLIENT Code = iota + 10000
+)
+
+const (
+	// ParameterError 用户请求参数错误 二级宏观错误码
+	ParameterError Code = iota + 10100
+	// RequiredParameterIsEmpty 请求必填参数为空
+	RequiredParameterIsEmpty
+)
+
+const (
+	// UserError 用户错误二级宏观错误码
+	UserError Code = iota + 10200
 	// UserNotRegister 用户未注册
 	UserNotRegister
 )
 
+const (
+	// CloudError 云环境错误二级宏观错误码
+	CloudError Code = iota + 10300
+	// OpenDataFail 获取OpenData失败
+	OpenDataFail
+)
+
 // 定义errorCode对应的文本信息
 var errorMsg = map[Code]string{
-	SUCCESS:         "成功",
-	CLIENT:          "用户端错误",
-	UserNotRegister: "用户未注册",
+	SUCCESS:                  "成功",
+	CLIENT:                   "用户端错误",
+	UserError:                "用户错误",
+	UserNotRegister:          "用户未注册",
+	CloudError:               "云环境错误",
+	OpenDataFail:             "获取OpenData失败",
+	ParameterError:           "用户请求参数错误",
+	RequiredParameterIsEmpty: "请求必填参数为空",
 }
 
 // CodeText 根据错误码获取错误信息

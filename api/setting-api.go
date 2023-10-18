@@ -18,5 +18,5 @@ func (t SettingApi) init(g *gin.RouterGroup) {
 
 func (t SettingApi) get(g *gin.Context) {
 	key := g.Param("key")
-	g.JSON(http.StatusOK, common.OkData(service.SettingService.One(key)))
+	g.JSON(http.StatusOK, common.OkData(service.SettingService.One(key).Value))
 }

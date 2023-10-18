@@ -56,7 +56,7 @@ func CodeText(code Code) string {
 
 // Rsp 响应
 type Rsp struct {
-	Code Code        `json:"code,omitempty"` // 错误码
+	Code Code        `json:"code"`           // 错误码
 	Msg  string      `json:"msg,omitempty"`  // 消息
 	Data interface{} `json:"data,omitempty"` // 数据
 }

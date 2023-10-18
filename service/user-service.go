@@ -60,8 +60,7 @@ func (t userService) RegisterByOpenId(openid string, data utils.UserInfoData) (*
 		return nil, errors.New("该用户已经注册")
 	}
 	// 创建用户
-	genderType := model.GenderType(data.Gender)
-	user := model.User{OpenId: openid, Nickname: data.NickName, Gender: genderType, Avatar: data.AvatarUrl}
+	user := model.User{OpenId: openid, Nickname: data.NickName, Gender: data.Gender, Avatar: data.AvatarUrl}
 	result := t.db.Create(&user)
 	return &user, result.Error
 }

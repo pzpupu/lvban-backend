@@ -48,17 +48,20 @@ func InitDB() *gorm.DB {
 	common.SysLog("database connected")
 
 	if err == nil {
-		err = db.AutoMigrate(&User{}, &PlayCompanion{}, &PlayMedia{}, &PlayProject{}, &PlayTag{}, &PlayDuration{})
-		if err != nil {
-			common.FatalLog("failed to migrate table: " + err.Error())
-		}
+		migrate := os.Getenv("DB_MIGRATE")
+		if migrate != "" {
+			setting := &Setting{}
+			err = db.AutoMigrate(&User{}, &PlayCompanion{}, &PlayMedia{}, &PlayProject{}, &PlayTag{}, &PlayDuration{}, setting)
+			if err != nil {
+				common.FatalLog("failed to migrate table: " + err.Error())
+			}
+			// 初始化系统默认配置
+			InitSettingMap(db)
+			common.SysLog("database migrated")
 
-		common.SysLog("database migrated")
-		if err != nil {
-			common.FatalLog("DB Open error,err=", err.Error())
 		}
 	} else {
-		common.FatalLog(err)
+		common.FatalLog("DB Open error,err=", err.Error())
 	}
 
 	return db

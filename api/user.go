@@ -2,7 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	error2 "lvban/common"
+	"lvban/common"
 	"lvban/model"
 	"lvban/service"
 	"net/http"
@@ -30,14 +30,14 @@ func (t UserApi) list(c *gin.Context) {
 	_ = c.Bind(&t)
 	v := model.User{}
 	_ = c.Bind(&v)
-	c.JSON(http.StatusOK, error2.OkData(service.UserService.List(t.Page, t.Size, &v)))
+	c.JSON(http.StatusOK, common.OkData(service.UserService.List(t.Page, t.Size, &v)))
 }
 
 // 根据主键Id查询记录
 func (t UserApi) one(c *gin.Context) {
 	var v model.User
 	_ = c.Bind(&v)
-	c.JSON(http.StatusOK, error2.OkData(service.UserService.One(v.ID)))
+	c.JSON(http.StatusOK, common.OkData(service.UserService.One(v.ID)))
 }
 
 // 修改记录
@@ -45,7 +45,7 @@ func (t UserApi) update(c *gin.Context) {
 	var v model.User
 	_ = c.ShouldBindJSON(&v)
 	service.UserService.Update(v)
-	c.JSON(http.StatusOK, error2.OkMsg("修改成功！"))
+	c.JSON(http.StatusOK, common.OkMsg("修改成功！"))
 }
 
 // 插入记录
@@ -53,12 +53,12 @@ func (t UserApi) insert(c *gin.Context) {
 	var v model.User
 	_ = c.ShouldBindJSON(&v)
 	service.UserService.Insert(v)
-	c.JSON(http.StatusOK, error2.OkMsg("插入成功！"))
+	c.JSON(http.StatusOK, common.OkMsg("插入成功！"))
 }
 
 // 根据主键删除
 func (t UserApi) delete(c *gin.Context) {
 	_ = c.Bind(&t)
 	service.UserService.Delete(t.Ids)
-	c.JSON(http.StatusOK, error2.OkMsg("删除成功！"))
+	c.JSON(http.StatusOK, common.OkMsg("删除成功！"))
 }

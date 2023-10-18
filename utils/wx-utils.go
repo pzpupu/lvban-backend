@@ -10,19 +10,24 @@ import (
 	"strconv"
 )
 
-// WxCloudIDResp 微信CloudID调用通用响应
-type WxCloudIDResp struct {
+// WxErr 微信通用的错误响应
+type WxErr struct {
 	// ErrCode 响应码
 	ErrCode int `json:"errcode"`
 	// ErrCode 响应码说明
 	ErrMsg string `json:"errmsg"`
+}
+
+// WxCloudIDResp 微信CloudID调用通用响应
+type WxCloudIDResp struct {
+	WxErr
 	// DataList 数据列表响应
 	DataList []struct {
 		// CloudId
-		CloudID int `json:"cloud_id"`
+		WxCloudID
 		// Json 数据
 		Json string
-	}
+	} `json:"data_list"`
 }
 
 type WxCloudID struct {
@@ -46,6 +51,7 @@ type UserInfoData struct {
 // WxCloudOpenData 微信云用户开放数据结构
 type WxCloudOpenData struct {
 	WxCloudID
+	WxErr
 	Data UserInfoData `json:"data"`
 }
 
@@ -75,6 +81,9 @@ func GetOpenData(openid, cloudid string) (*WxCloudOpenData, error) {
 		var openData = &WxCloudOpenData{}
 		if err := json.Unmarshal([]byte(response.DataList[0].Json), openData); err != nil {
 			return nil, err
+		}
+		if openData.ErrCode != 0 {
+			return nil, errors.New("errCode: " + strconv.Itoa(openData.ErrCode) + ", errMsg: " + openData.ErrMsg)
 		}
 		return openData, nil
 	}

@@ -46,9 +46,9 @@ func (t userService) Delete(ids []int) {
 
 // FindByOpenID 根据openid查询用户
 func (t userService) FindByOpenID(id string) (*model.User, error) {
-	user := &model.User{}
-	err := t.db.First(user, "open_id = ?", id).Error
-	return user, err
+	user := model.User{}
+	err := t.db.First(&user, "open_id = ?", id).Error
+	return &user, err
 }
 
 // RegisterByOpenId 根据openid注册用户
@@ -61,7 +61,7 @@ func (t userService) RegisterByOpenId(openid string, data utils.UserInfoData) (*
 	}
 	// 创建用户
 	genderType := model.GenderType(data.Gender)
-	user := model.User{WechatId: openid, Nickname: data.NickName, Gender: genderType, Avatar: data.AvatarUrl}
-	err := t.db.Create(user).Error
-	return &user, err
+	user := model.User{OpenId: openid, Nickname: data.NickName, Gender: genderType, Avatar: data.AvatarUrl}
+	result := t.db.Create(&user)
+	return &user, result.Error
 }

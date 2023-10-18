@@ -29,28 +29,26 @@ func (g GenderType) String() string {
 
 // Scan 实现 sql.Scanner 接口，用于从数据库读取值。
 func (g *GenderType) Scan(value interface{}) error {
-	*g = GenderType(value.(int8)) // 将数据库中的整数值转换为 GenderType 类型
+	*g = GenderType(value.(int64)) // 将数据库中的整数值转换为 GenderType 类型
 	return nil
 }
 
 // Value 实现 driver.Valuer 接口，用于写入数据库值。
 func (g GenderType) Value() (driver.Value, error) {
-	return int8(g), nil // 将 GenderType 值转换为数据库可存储的整数值
+	return int64(g), nil // 将 GenderType 值转换为数据库可存储的整数值
 }
 
 type User struct {
 	// 基础字段
 	gorm.Model
-	// 主键
-	//Id uint64 `json:"id" form:"id" gorm:"primaryKey;autoIncrement" `
-	// 微信id
-	WechatId string `json:"-" form:"wechat_id" gorm:"uniqueIndex;size:64"`
+	// 微信Openid
+	OpenId string `json:"-" form:"open_id" gorm:"uniqueIndex;size:64;not null"`
 	// 昵称
-	Nickname string `json:"nickname" form:"nickname" `
+	Nickname string `json:"nickname" form:"nickname" gorm:"not null"`
 	// 头像
-	Avatar string `json:"avatar" form:"avatar" `
+	Avatar string `json:"avatar" form:"avatar" gorm:"not null"`
 	// 性别
-	Gender GenderType `json:"gender" form:"gender" `
+	Gender GenderType `json:"gender" form:"gender" gorm:"not null"`
 	// 手机
 	Mobile string `json:"mobile" form:"mobile" `
 	// 创建时间

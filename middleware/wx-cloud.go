@@ -4,12 +4,20 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"lvban/common"
+	"os"
 )
 
 func WxCloud() gin.HandlerFunc {
+	EnvId := os.Getenv("CBR_ENV_ID")
+
 	return func(c *gin.Context) {
 		// 请求前
-		OpenId := c.GetHeader("X-WX-OPENID")
+		var OpenId string
+		if EnvId != "" {
+			OpenId = c.GetHeader("X-WX-OPENID")
+		} else {
+			OpenId = "o3lmL63DrcHkDVZyODHICxWYkxOw"
+		}
 		//UnionId := c.GetHeader("X-WX-UNIONID")
 		AppId := c.GetHeader("X-WX-APPID")
 		AccessToken := c.GetHeader("X-WX-CLOUDBASE-ACCESS-TOKEN")

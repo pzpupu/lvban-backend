@@ -26,7 +26,7 @@ func InitDB() *gorm.DB {
 		},
 	)
 
-	source := "%s:%s@tcp(%s)/%s?readTimeout=1500ms&writeTimeout=1500ms&charset=utf8mb4&loc=Local&&parseTime=true"
+	source := "%s:%s@tcp(%s)/%s?readTimeout=15000ms&writeTimeout=15000ms&charset=utf8mb4&loc=Local&&parseTime=true"
 	user := os.Getenv("MYSQL_USERNAME")
 	pwd := os.Getenv("MYSQL_PASSWORD")
 	addr := os.Getenv("MYSQL_ADDRESS")
@@ -46,17 +46,6 @@ func InitDB() *gorm.DB {
 	})
 
 	common.SysLog("database connected")
-
-	defer func() {
-		sqlDB, err := db.DB()
-		if err != nil {
-			common.FatalLog("failed to get orm db: " + err.Error())
-		}
-		err = sqlDB.Close()
-		if err != nil {
-			common.FatalLog("failed to close database: " + err.Error())
-		}
-	}()
 
 	if err == nil {
 		err = db.AutoMigrate(&User{}, &PlayCompanion{}, &PlayMedia{}, &PlayProject{}, &PlayTag{}, &PlayDuration{})

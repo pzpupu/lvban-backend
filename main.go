@@ -4,19 +4,22 @@ import (
 	"github.com/gin-gonic/gin"
 	"lvban/api"
 	"lvban/common"
-	"lvban/model"
 	"lvban/service"
 	"os"
 	"strconv"
 )
 
 func main() {
+	EnvId := os.Getenv("CBR_ENV_ID")
+	common.SysLog("CBR_ENV_ID: " + EnvId)
+
 	common.SetupGinLog()
-	// Initialize SQL Database
-	db := model.InitDB()
 
 	// 配置 Service
-	service.Setup(db)
+	service.Setup()
+
+	// 关闭数据库
+	defer service.CloseDB()
 
 	var port = os.Getenv("PORT")
 	if port == "" {

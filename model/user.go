@@ -10,7 +10,8 @@ type GenderType int8
 
 // 定义 GenderType 的可能值。
 const (
-	Male GenderType = iota
+	Unknown GenderType = iota
+	Male
 	Female
 )
 
@@ -43,9 +44,11 @@ type User struct {
 	// 主键
 	//Id uint64 `json:"id" form:"id" gorm:"primaryKey;autoIncrement" `
 	// 微信id
-	WechatId string `json:"wechat_id" form:"wechat_id" gorm:"uniqueIndex;size:64"`
+	WechatId string `json:"-" form:"wechat_id" gorm:"uniqueIndex;size:64"`
 	// 昵称
 	Nickname string `json:"nickname" form:"nickname" `
+	// 头像
+	Avatar string `json:"avatar" form:"avatar" `
 	// 性别
 	Gender GenderType `json:"gender" form:"gender" `
 	// 手机

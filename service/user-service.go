@@ -1,9 +1,11 @@
 package service
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"lvban/model"
+	"lvban/utils"
 )
 
 // userService 业务层
@@ -42,8 +44,24 @@ func (t userService) Delete(ids []int) {
 	t.db.Delete(model.User{}, ids)
 }
 
-func (t userService) FindByOpenID(id string) (model.User, error) {
+// FindByOpenID 根据openid查询用户
+func (t userService) FindByOpenID(id string) (*model.User, error) {
 	user := &model.User{}
 	err := t.db.First(user, "open_id = ?", id).Error
-	return *user, err
+	return user, err
+}
+
+// RegisterByOpenId 根据openid注册用户
+func (t userService) RegisterByOpenId(openid string, data utils.UserInfoData) (*model.User, error) {
+	// 检查openId是否已经存在
+	var count int64
+	t.db.Where("open_id = ?", openid).Count(&count)
+	if count > 0 {
+		return nil, errors.New("该用户已经注册")
+	}
+	// 创建用户
+	genderType := model.GenderType(data.Gender)
+	user := model.User{WechatId: openid, Nickname: data.NickName, Gender: genderType, Avatar: data.AvatarUrl}
+	err := t.db.Create(user).Error
+	return &user, err
 }

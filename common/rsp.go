@@ -65,6 +65,11 @@ func (e *Rsp) Error() string {
 	return fmt.Sprintf("code: %d, msg: %s, advice: %s", e.Code, e.Msg, e.Msg)
 }
 
+// Ok 成功的消息返回
+func Ok() Rsp {
+	return Rsp{Code: SUCCESS, Msg: CodeText(SUCCESS)}
+}
+
 // OkData 成功的数据返回
 func OkData(data interface{}) Rsp {
 	return Rsp{Code: SUCCESS, Msg: CodeText(SUCCESS), Data: data}

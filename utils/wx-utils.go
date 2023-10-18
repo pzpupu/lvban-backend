@@ -15,7 +15,7 @@ type WxCloudIDResp struct {
 	// ErrCode 响应码
 	ErrCode int `json:"errcode"`
 	// ErrCode 响应码说明
-	ErrMsg int `json:"errmsg"`
+	ErrMsg string `json:"errmsg"`
 	// DataList 数据列表响应
 	DataList []struct {
 		// CloudId
@@ -63,6 +63,9 @@ func GetOpenData(openid, cloudid string) (*WxCloudOpenData, error) {
 		return nil, err
 	}
 
+	println("====== Body ==========")
+	println(string(body))
+
 	var response WxCloudIDResp
 	if err := json.Unmarshal(body, &response); err != nil {
 		return nil, err
@@ -76,5 +79,5 @@ func GetOpenData(openid, cloudid string) (*WxCloudOpenData, error) {
 		return openData, nil
 	}
 
-	return nil, errors.New("errCode: " + strconv.Itoa(response.ErrCode) + ", errMsg: " + strconv.Itoa(response.ErrMsg))
+	return nil, errors.New("errCode: " + strconv.Itoa(response.ErrCode) + ", errMsg: " + response.ErrMsg)
 }

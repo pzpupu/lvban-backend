@@ -26,7 +26,7 @@ func InitSettingMap(db *gorm.DB) {
 	var OptionMap = make(map[string]RawString)
 	// 首页轮播图
 	OptionMap["HomeSwiper"] = RawString("[{\"img\": \"https://cdn-we-retail.ym.tencent.com/tsr/home/v2/banner1.png\",\"path\":\"/pages/promotion-detail/index?promotion_id=1\"},{\"img\": \"https://cdn-we-retail.ym.tencent.com/tsr/home/v2/banner2.png\",\"path\":\"/pages/promotion-detail/index?promotion_id=2\"},{\"img\": \"https://cdn-we-retail.ym.tencent.com/tsr/home/v2/banner3.png\",\"path\":\"/pages/promotion-detail/index?promotion_id=3\"},{\"img\": \"https://cdn-we-retail.ym.tencent.com/tsr/home/v2/banner4.png\",\"path\":\"/pages/promotion-detail/index?promotion_id=4\"},{\"img\": \"https://cdn-we-retail.ym.tencent.com/tsr/home/v2/banner5.png\",\"path\":\"/pages/promotion-detail/index?promotion_id=5\"}]")
-	OptionMap["HomeTabs"] = RawString("[{\"text\":\"新人推荐\",\"id\":1},{\"text\":\"外国小姐姐\",\"id\":2},{\"text\":\"探店达人\",\"id\":3},{\"text\":\"技能达人\",\"id\":4},{\"img\":\"微醺\",\"id\":5}]")
+	OptionMap["HomeTabs"] = RawString("[{\"text\":\"新人推荐\",\"key\":1},{\"text\":\"外国小姐姐\",\"key\":2},{\"text\":\"探店达人\",\"key\":3},{\"text\":\"技能达人\",\"key\":4},{\"img\":\"微醺\",\"key\":5}]")
 	initDefaultsSettingToDatabase(OptionMap, db)
 }
 

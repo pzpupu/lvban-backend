@@ -24,4 +24,6 @@ type PlayCompanion struct {
 	SoldHour int `json:"sold_hour" form:"sold_hour" gorm:"default:0" `
 	// 简介
 	Summary string `json:"summary" form:"summary" gorm:"type:text" `
+	// 性别 1:男 2:女
+	Gender int8 `json:"gender" form:"gender" gorm:"type:tinyint;size:1;default:2" `
 }

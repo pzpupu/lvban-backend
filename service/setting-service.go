@@ -15,3 +15,9 @@ func (t settingService) One(id string) (v model.Setting) {
 	t.db.Find(&v, "`key` = ?", id)
 	return
 }
+
+// ListByIds 列表查询
+func (t settingService) ListByIds(keys []string) (settings []model.Setting) {
+	t.db.Debug().Find(&settings, keys)
+	return settings
+}

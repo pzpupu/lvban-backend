@@ -14,4 +14,5 @@ func SetRouter(g *gin.Engine) {
 	// 自己的接口
 	SelfApi{}.init(apiRouter)
 	SettingApi{}.init(apiRouter)
+	PlayApi{}.init(apiRouter)
 }

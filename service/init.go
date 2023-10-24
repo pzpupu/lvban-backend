@@ -10,12 +10,14 @@ var db *gorm.DB
 
 var UserService userService
 var SettingService settingService
+var PlayCompanionService playCompanionService
 
 func Setup() {
 	// Initialize SQL Database
-	db := model.InitDB()
+	db = model.InitDB()
 	UserService = userService{db}
 	SettingService = settingService{db}
+	PlayCompanionService = playCompanionService{db}
 }
 
 func CloseDB() {

@@ -37,7 +37,7 @@ func (t UserApi) list(c *gin.Context) {
 func (t UserApi) one(c *gin.Context) {
 	var v model.User
 	_ = c.Bind(&v)
-	c.JSON(http.StatusOK, common.OkData(service.UserService.One(v.ID)))
+	c.JSON(http.StatusOK, common.OkData(service.UserService.One(v.Id)))
 }
 
 // 修改记录

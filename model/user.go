@@ -1,12 +1,8 @@
 package model
 
-import (
-	"gorm.io/gorm"
-)
-
 type User struct {
 	// 基础字段
-	gorm.Model
+	BaseModel
 	// 微信Openid
 	OpenId string `json:"-" form:"open_id" gorm:"uniqueIndex;size:64;not null"`
 	// 昵称

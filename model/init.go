@@ -10,6 +10,7 @@ import (
 	"log"
 	"lvban/common"
 	"os"
+	"reflect"
 	"time"
 )
 
@@ -21,7 +22,7 @@ func InitDB() *gorm.DB {
 			SlowThreshold:             time.Second,   // Slow SQL threshold
 			LogLevel:                  logger.Silent, // Log level
 			IgnoreRecordNotFoundError: true,          // Ignore ErrRecordNotFound error for logger
-			ParameterizedQueries:      true,          // Don't include params in the SQL log
+			ParameterizedQueries:      false,         // Don't include params in the SQL log
 			Colorful:                  false,         // Disable color
 		},
 	)
@@ -40,7 +41,7 @@ func InitDB() *gorm.DB {
 	db, err := gorm.Open(mysql.Open(source), &gorm.Config{
 		Logger: newLogger,
 		NamingStrategy: schema.NamingStrategy{
-			TablePrefix:   "t_", // 定义表前缀
+			//TablePrefix:   "t_", // 定义表前缀
 			SingularTable: true, // true不在表后面+ s，
 		},
 	})
@@ -50,11 +51,20 @@ func InitDB() *gorm.DB {
 	if err == nil {
 		migrate := os.Getenv("DB_MIGRATE")
 		if migrate != "" {
-			setting := &Setting{}
-			err = db.AutoMigrate(&User{}, &PlayCompanion{}, &PlayMedia{}, &PlayProject{}, &PlayTag{}, &PlayDuration{}, setting)
-			if err != nil {
-				common.FatalLog("failed to migrate table: " + err.Error())
+			common.SysLog("database begin migrate")
+			for _, value := range []interface{}{
+				&User{}, &PlayCompanion{}, &PlayMedia{}, &PlayProject{}, &PlayTag{}, &PlayDuration{}, &Setting{},
+			} {
+				err = db.AutoMigrate(value)
+				if err != nil {
+					t := reflect.TypeOf(value)
+					if t.Kind() == reflect.Ptr {
+						t = t.Elem()
+					}
+					common.FatalLog(fmt.Sprintf("failed to migrate table %s: %s", t.Name(), err.Error()))
+				}
 			}
+
 			// 初始化系统默认配置
 			InitSettingMap(db)
 			common.SysLog("database migrated")
@@ -65,4 +75,11 @@ func InitDB() *gorm.DB {
 	}
 
 	return db
+}
+
+type BaseModel struct {
+	Id        uint           `json:"id" gorm:"primarykey"`
+	CreatedAt time.Time      `json:"createdAt"`
+	UpdatedAt time.Time      `json:"updatedAt"`
+	DeletedAt gorm.DeletedAt `json:"-" gorm:"index"`
 }

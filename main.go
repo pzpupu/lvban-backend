@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"lvban/api"
 	"lvban/common"
 	"lvban/service"
@@ -10,9 +11,12 @@ import (
 )
 
 func main() {
-	EnvId := os.Getenv("CBR_ENV_ID")
-	common.SysLog("CBR_ENV_ID: " + EnvId)
+	// 加载 .env 文件
+	if err := godotenv.Load(); err != nil {
+		common.FatalLog("Error loading .env file")
+	}
 
+	// 配置日志
 	common.SetupGinLog()
 
 	// 配置 Service

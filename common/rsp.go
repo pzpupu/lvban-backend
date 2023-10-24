@@ -21,6 +21,8 @@ const (
 	ParameterError Code = iota + 10100
 	// RequiredParameterIsEmpty 请求必填参数为空
 	RequiredParameterIsEmpty
+	// InvalidParameterValue 参数值非法
+	InvalidParameterValue
 )
 
 const (
@@ -56,9 +58,10 @@ func CodeText(code Code) string {
 
 // Rsp 响应
 type Rsp struct {
-	Code Code        `json:"code"`           // 错误码
-	Msg  string      `json:"msg,omitempty"`  // 消息
-	Data interface{} `json:"data,omitempty"` // 数据
+	Code  Code        `json:"code"`            // 错误码
+	Msg   string      `json:"msg,omitempty"`   // 消息
+	Data  interface{} `json:"data,omitempty"`  // 数据
+	Total int64       `json:"total,omitempty"` // 数据
 }
 
 func (e *Rsp) Error() string {
@@ -73,6 +76,11 @@ func Ok() Rsp {
 // OkData 成功的数据返回
 func OkData(data interface{}) Rsp {
 	return Rsp{Code: SUCCESS, Msg: CodeText(SUCCESS), Data: data}
+}
+
+// OkPage 成功的数据返回
+func OkPage(total int64, data interface{}) Rsp {
+	return Rsp{Code: SUCCESS, Msg: CodeText(SUCCESS), Data: data, Total: total}
 }
 
 // OkMsg 成功的消息返回

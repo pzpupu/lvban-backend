@@ -25,7 +25,7 @@ func (t playCompanionService) Page(page int, size int, v model.PlayCompanion, ta
 		return
 	}
 
-	t.db.Debug().Model(&v).Where(&v).
+	condition.
 		Preload("Medias").
 		Preload("Projects").
 		Preload("Tags").

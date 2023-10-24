@@ -6,5 +6,5 @@ Accept: application/json
 
 ###
 
-GET {{host}}/api/play?tag=6
+GET {{host}}/api/play?tag=3
 Accept: application/json

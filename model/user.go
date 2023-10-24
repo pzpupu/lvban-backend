@@ -17,4 +17,5 @@ type User struct {
 	//CreatedAt time.Time `json:"created_at" form:"created_at" gorm:"autoCreateTime" `
 	// 更新时间
 	//UpdatedAt time.Time `json:"updated_at" form:"updated_at" gorm:"autoUpdateTime" `
+	// TODO: 用户来源(酒吧、线下场所等..)
 }

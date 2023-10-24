@@ -26,8 +26,8 @@ func TestInsert(t *testing.T) {
 		Name:        "陪玩1",
 		Medias:      playMedias,
 		HasVoice:    true,
-		Projects:    projects,
-		Tags:        tags,
+		Projects:    &projects,
+		Tags:        &tags,
 		IsRecommend: true,
 		Weight:      0,
 		SoldHour:    0,
@@ -35,9 +35,20 @@ func TestInsert(t *testing.T) {
 		Gender:      2,
 	}
 
-	value := &playCompanion
-
-	tx := db.Debug().Create(value)
+	playCompanion2 := model.PlayCompanion{
+		Name:     "陪玩2",
+		Medias:   playMedias,
+		HasVoice: true,
+		//Projects:    &projects,
+		//Tags:        &tags,
+		IsRecommend: true,
+		Weight:      0,
+		SoldHour:    0,
+		Summary:     "简介",
+		Gender:      2,
+	}
+	var plays = []model.PlayCompanion{playCompanion, playCompanion2}
+	tx := db.Debug().Create(&plays)
 	if tx.Error != nil {
 		t.Error(tx.Error)
 	}
